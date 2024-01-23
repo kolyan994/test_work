@@ -2,7 +2,7 @@ def find_sum_fibonachi():
     a = 3
     b = 4
     result = 0
-    while a + b < 30:
+    while a + b < 7000000:
         c = a
         a = b
         b = c + b
