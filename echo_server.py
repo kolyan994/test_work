@@ -6,12 +6,21 @@ class EchoServer:  # Определяем класс EchoServer
         self.port = port
 
     async def echo(self, reader, writer):  # Определяем асинхронную функцию echo для обработки сообщений
-        data = await reader.read(100)
-        print(f'Получено сообщение: {data.decode()}')
-        message = data.decode().upper()
-        writer.write(message.encode())
-        print(f"Отправлено: {message}")
-        await writer.drain()
+        while True:
+            try:
+                async with asyncio.timeout(5):
+                    data = await reader.read(100)
+            except asyncio.TimeoutError:
+                writer.write('Timeout!'.encode())
+                print('Таймаут соединения')
+                break
+            if not data:
+                break
+            print(f'Получено сообщение: {data.decode()}')
+            message = data.decode().upper()
+            writer.write(message.encode())
+            print(f"Отправлено: {message}")
+            await writer.drain()
         writer.close()
         print("Соединение закрыто")
 
