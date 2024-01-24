@@ -21,7 +21,8 @@ class EchoServer:  # Определяем класс EchoServer
             await server.serve_forever()
 
 
-host = ''
-port = 8000
-echo_server = EchoServer(host, port)
-asyncio.run(echo_server.run_server())
+if __name__ == '__main__':
+    host = ''
+    port = 8000
+    echo_server = EchoServer(host, port)
+    asyncio.run(echo_server.run_server())
